@@ -1,108 +1,81 @@
+from zipfile import ZipFile
+import os
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KGN IT SOLUTIONS AND SECURITY</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f8f9fa; }
-    header { background: #ffffff; padding: 1rem; text-align: center; }
-    header img { max-width: 300px; height: auto; }
-    nav { background: #343a40; padding: 0.5rem; text-align: center; }
-    nav a { color: white; margin: 0 1rem; text-decoration: none; }
-    nav a:hover { text-decoration: underline; }
-    section { padding: 2rem; }
-    footer { background: #007bff; color: white; text-align: center; padding: 1rem; position: relative; }
-    input, textarea { width: 100%; padding: 0.5rem; margin: 0.5rem 0; }
-    button { padding: 0.5rem 1rem; background: #007bff; color: white; border: none; cursor: pointer; }
-    button:hover { background: #0056b3; }
-    .invoice-box { border: 1px solid #ccc; padding: 1rem; background: white; }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="logo.png" alt="KGN Logo" />
-    <h1>KGN IT SOLUTIONS AND SECURITY</h1>
-    <p>JK Road Gotan, 342902 | 9001093827 | rangrejarman91319@gmail.com</p>
-  </header>
+# Create paths
+gallery_html = """
+<section id="gallery">
+  <h2>Our Products</h2>
+  <div class="gallery">
+    <div><img src="images/monitor.jpg" alt="Monitor"><p>Monitor</p></div>
+    <div><img src="images/cabinet.jpg" alt="Cabinet"><p>Cabinet</p></div>
+    <div><img src="images/motherboard.jpg" alt="Motherboard"><p>Motherboard</p></div>
+    <div><img src="images/ssd.jpg" alt="SSD"><p>SSD</p></div>
+    <div><img src="images/ups.jpg" alt="UPS"><p>UPS</p></div>
+    <div><img src="images/cctv.jpg" alt="CCTV"><p>CCTV Camera</p></div>
+  </div>
+</section>
+"""
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
-    <a href="#invoice">Invoice</a>
-  </nav>
-
-  <section id="home">
-    <h2>Welcome</h2>
-    <p>We offer computer, CCTV, and IT support services. Reliable, fast, and trusted by many in Gotan.</p>
-  </section>
-
-  <section id="about">
-    <h2>About Us</h2>
-    <p>KGN IT SOLUTIONS AND SECURITY is a trusted name in Gotan for computer repairs, CCTV installations, and all kinds of IT services.</p>
-  </section>
-
-  <section id="services">
-    <h2>Our Services</h2>
-    <ul>
-      <li>Computer & Laptop Repair</li>
-      <li>CCTV Installation</li>
-      <li>Software Installation</li>
-      <li>Mobile Accessories</li>
-      <li>Networking & Security</li>
-    </ul>
-  </section>
-
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea placeholder="Your Message"></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </section>
-
-  <section id="invoice">
-    <h2>Invoice Generator</h2>
-    <div class="invoice-box">
-      <input id="custName" placeholder="Customer Name" />
-      <input id="phone" placeholder="Phone Number" />
-      <textarea id="details" placeholder="Repair Details"></textarea>
-      <button onclick="generateInvoice()">Download Invoice (PDF)</button>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 KGN IT SOLUTIONS AND SECURITY. All rights reserved.</p>
-  </footer>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script>
-    async function generateInvoice() {
-      const {{ jsPDF }} = window.jspdf;
-      const doc = new jsPDF();
-      const name = document.getElementById("custName").value;
-      const phone = document.getElementById("phone").value;
-      const details = document.getElementById("details").value;
-
-      doc.setFontSize(16);
-      doc.text("KGN IT SOLUTIONS AND SECURITY", 10, 20);
-      doc.setFontSize(10);
-      doc.text("Email: rangrejarman91319@gmail.com / moinuddinrangrej@gmail.com", 10, 30);
-      doc.text("Phone: 9001093827", 10, 36);
-      doc.text("Address: JK Road Gotan, 342902", 10, 42);
-      doc.setFontSize(12);
-      doc.text("Customer Name: " + name, 10, 60);
-      doc.text("Phone Number: " + phone, 10, 70);
-      doc.text("Repair Details:", 10, 80);
-      doc.text(details, 10, 90);
-
-      doc.save("Invoice_KGN.pdf");
+# Reuse and update the previous HTML content with live background and gallery
+html_with_gallery = html_content.replace(
+    "</section>\n\n  <section id=\"invoice\">", 
+    f"</section>\n\n  {gallery_html}\n  <section id=\"invoice\">"
+).replace(
+    "<style>",
+    """<style>
+    body {
+      background: linear-gradient(270deg, #e3f2fd, #ffffff, #e3f2fd);
+      background-size: 600% 600%;
+      animation: backgroundMove 10s ease infinite;
     }
-  </script>
-</body>
-</html>
+    @keyframes backgroundMove {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .gallery div {
+      background: white;
+      padding: 0.5rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .gallery img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }"""
+)
+
+# Create directory structure
+image_folder = f"{base_path}/images"
+os.makedirs(image_folder, exist_ok=True)
+
+# Prepare dummy image files (since real image content can't be downloaded here)
+dummy_img_path = "/mnt/data/dummy.jpg"
+with open(dummy_img_path, "wb") as f:
+    f.write(b"\xFF\xD8\xFF\xE0" + b"\x00" * 100)  # Minimal JPEG header with padding
+
+# Copy the dummy image as placeholders
+for name in ["monitor", "cabinet", "motherboard", "ssd", "ups", "cctv"]:
+    shutil.copy(dummy_img_path, f"{image_folder}/{name}.jpg")
+
+# Update index.html file
+with open(index_path, "w") as f:
+    f.write(html_with_gallery)
+
+# Create new zip with images included
+zip_path_gallery = "/mnt/data/kgn_it_website_with_gallery.zip"
+with ZipFile(zip_path_gallery, "w") as zipf:
+    zipf.write(index_path, arcname="index.html")
+    zipf.write(f"{base_path}/logo.png", arcname="logo.png")
+    for img_file in os.listdir(image_folder):
+        zipf.write(f"{image_folder}/{img_file}", arcname=f"images/{img_file}")
+
+zip_path_gallery
